@@ -87,8 +87,7 @@
 
 ### Тестирование
 
-<img width="550" height="516" alt="Снимок экрана 2026-11-02 в 18 03 24" src="https://github.com/user-attachments/assets/34730130-354d-4bf2-8e95-8be17bf1ad04" />
-
+<img width="381" height="106" alt="Снимок экрана 2026-11-02 в 18 01 04" src="https://github.com/user-attachments/assets/1c1ca5f0-7d97-437c-a249-e507a94636f4" />
 # Задание 5
 
 ## Бинарные файлы и структуры (XML-сериализация)
@@ -104,4 +103,4 @@
 Метод `CalculateBaggageDifference()` выгружает данные из файла, находит максимальную `maxWeight` и минимальную `minWeight` массы вещей среди всех пассажиров и вычисляет их разность (`maxWeight - minWeight`).
 
 ### Тестирование
-<img width="381" height="106" alt="Снимок экрана 2026-11-02 в 18 01 04" src="https://github.com/user-attachments/assets/1c1ca5f0-7d97-437c-a249-e507a94636f4" />
+<img width="550" height="516" alt="Снимок экрана 2026-11-02 в 18 03 24" src="https://github.com/user-attachments/assets/34730130-354d-4bf2-8e95-8be17bf1ad04" />
