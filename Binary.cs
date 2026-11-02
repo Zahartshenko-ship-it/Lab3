@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Xml.Serialization;
 
 namespace Lab3
 {
@@ -44,10 +45,11 @@ namespace Lab3
                 new BinaryReader(File.Open(
                     filePath, FileMode.Open)))
             {
+                int val;
                 while (reader.BaseStream.Position < 
                        reader.BaseStream.Length)
                 {
-                    int val = reader.ReadInt32();
+                    val = reader.ReadInt32();
                     Console.Write($"{val} ");
                 }
                 Console.WriteLine();
@@ -107,34 +109,11 @@ namespace Lab3
             string filePath, 
             PassengerBaggage[] passengers)
         {
-            using (BinaryWriter writer = 
-                new BinaryWriter(
-                    File.Open(
-                        filePath, 
-                        FileMode.Create)))
+            XmlSerializer serializer = new XmlSerializer(typeof(PassengerBaggage[]));
+            
+            using (FileStream fs = new FileStream(filePath, FileMode.Create))
             {
-                writer.Write(passengers.Length);
-
-                for (int i = 0; 
-                     i < passengers.Length; 
-                     i++)
-                {
-                    writer.Write(
-                        passengers[i].PassengerName);
-                    
-                    writer.Write(
-                        passengers[i].Items.Length);
-
-                    for (int j = 0; 
-                         j < passengers[i].Items.Length; 
-                         j++)
-                    {
-                        writer.Write(
-                            passengers[i].Items[j].Name);
-                        writer.Write(
-                            passengers[i].Items[j].Weight);
-                    }
-                }
+                serializer.Serialize(fs, passengers);
             }
         }
 
@@ -146,41 +125,11 @@ namespace Lab3
                 return new PassengerBaggage[0];
             }
 
-            using (BinaryReader reader = 
-                new BinaryReader(
-                    File.Open(
-                        filePath, 
-                        FileMode.Open)))
+            XmlSerializer serializer = new XmlSerializer(typeof(PassengerBaggage[]));
+           
+            using (FileStream fs = new FileStream(filePath, FileMode.Open))
             {
-                int passengerCount = 
-                    reader.ReadInt32();
-                PassengerBaggage[] passengers = 
-                    new PassengerBaggage[passengerCount];
-
-                for (int i = 0; 
-                     i < passengerCount; 
-                     i++)
-                {
-                    passengers[i].PassengerName = 
-                        reader.ReadString();
-
-                    int itemCount = 
-                        reader.ReadInt32();
-                    passengers[i].Items = 
-                        new BaggageItem[itemCount];
-
-                    for (int j = 0; 
-                         j < itemCount; 
-                         j++)
-                    {
-                        passengers[i].Items[j].Name = 
-                            reader.ReadString();
-                        passengers[i].Items[j].Weight = 
-                            reader.ReadDouble();
-                    }
-                }
-
-                return passengers;
+                return (PassengerBaggage[])serializer.Deserialize(fs);
             }
         }
 
