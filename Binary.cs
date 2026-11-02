@@ -6,14 +6,38 @@ namespace Lab3
 {
     public struct BaggageItem
     {
-        public string Name;
-        public double Weight;
+        private string _name;
+        private double _weight;
+
+        public string Name
+        {
+            get { return _name; }
+            set { _name = value; }
+        }
+
+        public double Weight
+        {
+            get { return _weight; }
+            set { _weight = value; }
+        }
     }
 
     public struct PassengerBaggage
     {
-        public string PassengerName;
-        public BaggageItem[] Items;
+        private string _passengerName;
+        private BaggageItem[] _items;
+
+        public string PassengerName
+        {
+            get { return _passengerName; }
+            set { _passengerName = value; }
+        }
+
+        public BaggageItem[] Items
+        {
+            get { return _items; }
+            set { _items = value; }
+        }
     }
     public static class BinaryTask
     {
@@ -117,19 +141,27 @@ namespace Lab3
             }
         }
 
-        public static PassengerBaggage[] ReadBaggageBinaryFile(
-            string filePath)
+        public static PassengerBaggage[] ReadBaggageBinaryFile(string filePath)
         {
             if (!File.Exists(filePath))
             {
                 return new PassengerBaggage[0];
             }
 
-            XmlSerializer serializer = new XmlSerializer(typeof(PassengerBaggage[]));
-           
+            XmlSerializer serializer = 
+                new XmlSerializer(typeof(PassengerBaggage[]));
+            
             using (FileStream fs = new FileStream(filePath, FileMode.Open))
             {
-                return (PassengerBaggage[])serializer.Deserialize(fs);
+                PassengerBaggage[]? passengers = 
+                    serializer.Deserialize(fs) as PassengerBaggage[];
+                
+                if (passengers == null)
+                {
+                    return new PassengerBaggage[0];
+                }
+
+                return passengers;
             }
         }
 
